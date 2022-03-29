@@ -1,0 +1,13 @@
+<resources>
+
+
+    <style name="Theme.Voskandroiddemo.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Voskandroiddemo.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Theme.Voskandroiddemo.NoActionBar" parent="ThemeOverlay.AppCompat" >
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+</resources>

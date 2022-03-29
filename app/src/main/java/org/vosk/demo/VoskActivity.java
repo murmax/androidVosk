@@ -16,6 +16,7 @@ package org.vosk.demo;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -78,10 +79,20 @@ public class VoskActivity extends Activity implements
         } else {
             initModel();
         }
+
+        findViewById(R.id.btn_editCommands).setOnClickListener(view -> goToEditCommands());
+
+
+    }
+
+    private void goToEditCommands()
+    {
+        Intent intent = new Intent(this, CommandsActivity.class);
+        startActivity(intent);
     }
 
     private void initModel() {
-        StorageService.unpack(this, "model-en-us", "model",
+        StorageService.unpack(this, "model-small-ru", "model",
                 (model) -> {
                     this.model = model;
                     setUiState(STATE_READY);

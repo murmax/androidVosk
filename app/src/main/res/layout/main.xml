@@ -4,6 +4,13 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:padding="16dp">
+
+    <Button
+        android:id="@+id/btn_editCommands"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_editCommands" />
+
     <Button
         android:id="@+id/recognize_file"
         android:layout_width="match_parent"
@@ -20,8 +27,9 @@
         android:id="@+id/pause"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/pause"
         android:textOff="@string/pause"
-        android:textOn="@string/continueRecognition"/>
+        android:textOn="@string/continueRecognition" />
 
     <TextView
         android:id="@+id/result_text"

@@ -27,6 +27,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -34,4 +37,6 @@ dependencies {
     implementation 'net.java.dev.jna:jna:5.8.0@aar'
     implementation group: 'com.alphacephei', name: 'vosk-android', version: '0.3.32'
     implementation project(':models')
+    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
 }
