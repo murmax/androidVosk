@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import org.vosk.demo.databinding.ActivityCommandsBinding;
 
@@ -39,6 +41,7 @@ public class CommandsActivity extends AppCompatActivity {
             }
         });
         findViewById(R.id.btn_backToMenu).setOnClickListener(view -> goToMainMenu());
+        findViewById(R.id.btn_addCommand).setOnClickListener(view -> addNewCommand());
     }
 
 
@@ -46,5 +49,15 @@ public class CommandsActivity extends AppCompatActivity {
     {
         Intent intent = new Intent(this, VoskActivity.class);
         startActivity(intent);
+    }
+
+    private void addNewCommand()
+    {
+
+        EditText mEdit   = (EditText)findViewById(R.id.le_commandPhonetic);
+        String name = mEdit.getText().toString();
+        Command com = new Command("'"+name+"'",name,VoskActivity.functions.get(0));
+        VoskActivity.commands.add(com);
+        Toast.makeText(getApplicationContext(),"Создана команда "+name,Toast.LENGTH_SHORT).show();
     }
 }

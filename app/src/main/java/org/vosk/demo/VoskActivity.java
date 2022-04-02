@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import org.vosk.LibVosk;
@@ -35,6 +36,8 @@ import org.vosk.android.StorageService;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -42,6 +45,9 @@ import androidx.core.content.ContextCompat;
 
 public class VoskActivity extends Activity implements
         RecognitionListener {
+
+    static public List<Command> commands =  new ArrayList<Command>();
+    static public List<ExecutableFunction> functions = new ArrayList<ExecutableFunction>();
 
     static private final int STATE_START = 0;
     static private final int STATE_READY = 1;
@@ -61,6 +67,16 @@ public class VoskActivity extends Activity implements
     public void onCreate(Bundle state) {
         super.onCreate(state);
         setContentView(R.layout.main);
+        ExecutableFunction func = new ExecutableFunction(getApplicationContext());
+
+
+        if (functions!=null && func!=null)
+            functions.add( func);
+        else
+        {
+            Toast.makeText(getApplicationContext(),"ERROR!",Toast.LENGTH_SHORT).show();
+        }
+
 
         // Setup layout
         resultView = findViewById(R.id.result_text);
@@ -83,6 +99,17 @@ public class VoskActivity extends Activity implements
         findViewById(R.id.btn_editCommands).setOnClickListener(view -> goToEditCommands());
 
 
+    }
+
+    private String takeTextFromHypothesis(String hypo)
+    {
+        String formatted = hypo.replace("\"text\"","");
+        String[] dividedHypo = formatted.split("\"");
+
+        if (dividedHypo.length==3)
+        {
+            return dividedHypo[1];
+        } else return "";
     }
 
     private void goToEditCommands()
@@ -133,12 +160,25 @@ public class VoskActivity extends Activity implements
 
     @Override
     public void onResult(String hypothesis) {
+        String result = takeTextFromHypothesis(hypothesis);
+
+        //Toast.makeText(getApplicationContext(),"Результат:"+result,Toast.LENGTH_SHORT).show();
+
+        for (Command com: commands) {
+            if (com.checkCommand(result))
+            {
+                resultView.append(com.name + " worked!" + "\n");
+                com.execute();
+            }
+        }
+
         resultView.append(hypothesis + "\n");
     }
 
     @Override
     public void onFinalResult(String hypothesis) {
         resultView.append(hypothesis + "\n");
+
         setUiState(STATE_DONE);
         if (speechStreamService != null) {
             speechStreamService = null;
@@ -147,6 +187,7 @@ public class VoskActivity extends Activity implements
 
     @Override
     public void onPartialResult(String hypothesis) {
+        //Toast.makeText(getApplicationContext(),"Hypo3:"+hypothesis,Toast.LENGTH_SHORT).show();
         resultView.append(hypothesis + "\n");
     }
 
@@ -204,6 +245,7 @@ public class VoskActivity extends Activity implements
 
     private void setErrorState(String message) {
         resultView.setText(message);
+        Toast.makeText(getApplicationContext(),"error:"+message,Toast.LENGTH_SHORT).show();
         ((Button) findViewById(R.id.recognize_mic)).setText(R.string.recognize_microphone);
         findViewById(R.id.recognize_file).setEnabled(false);
         findViewById(R.id.recognize_mic).setEnabled(false);

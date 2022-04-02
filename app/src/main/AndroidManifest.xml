@@ -13,12 +13,12 @@
         android:label="@string/app_name"
         tools:targetApi="s">
         <activity
-            android:name=".CommandsActivity"
+            android:name="org.vosk.demo.CommandsActivity"
             android:exported="false"
             android:label="@string/title_activity_commands"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".VoskActivity"
+            android:name="org.vosk.demo.VoskActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

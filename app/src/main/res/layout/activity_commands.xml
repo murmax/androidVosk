@@ -53,4 +53,20 @@
         app:layout_anchor="@+id/app_bar"
         app:layout_anchorGravity="center" />
 
+    <Button
+        android:id="@+id/btn_addCommand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="addCommand"
+        app:layout_anchor="@+id/app_bar"
+        app:layout_anchorGravity="bottom|center" />
+
+    <EditText
+        android:id="@+id/le_commandPhonetic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
