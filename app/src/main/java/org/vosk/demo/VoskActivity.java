@@ -16,8 +16,11 @@ package org.vosk.demo;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.media.Image;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.Button;
@@ -25,6 +28,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import org.luaj.vm2.LuaError;
+import org.luaj.vm2.LuaTable;
+import org.luaj.vm2.lib.ZeroArgFunction;
+import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import org.vosk.LibVosk;
 import org.vosk.LogLevel;
 import org.vosk.Model;
@@ -34,14 +41,27 @@ import org.vosk.android.SpeechService;
 import org.vosk.android.SpeechStreamService;
 import org.vosk.android.StorageService;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import org.luaj.vm2.Globals;
+import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.lib.OneArgFunction;
+import org.luaj.vm2.lib.TwoArgFunction;
+import org.luaj.vm2.lib.jse.JsePlatform;
+
+
 
 public class VoskActivity extends Activity implements
         RecognitionListener {
@@ -71,7 +91,7 @@ public class VoskActivity extends Activity implements
         ExecutableFunction func = new ExecutableFunction(getApplicationContext());
 
 
-        if (functions!=null && func!=null)
+        if (functions != null)
             functions.add( func);
         else
         {
@@ -98,9 +118,13 @@ public class VoskActivity extends Activity implements
         }
 
         findViewById(R.id.btn_editCommands).setOnClickListener(view -> goToEditCommands());
+        findViewById(R.id.btn_runScript).setOnClickListener(view -> runLuaFromBtn());
+
+
 
 
     }
+
 
     private String takeTextFromHypothesis(String hypo)
     {
@@ -262,7 +286,7 @@ public class VoskActivity extends Activity implements
     private void setErrorState(String message) {
         resultView.setText(message);
         //Toast.makeText(getApplicationContext(),"error:"+message,Toast.LENGTH_SHORT).show();
-        ((Button) findViewById(R.id.recognize_mic)).setText(R.string.recognize_microphone);
+        //((Button) findViewById(R.id.recognize_mic)).setText(R.string.recognize_microphone);
         //Распознать с микрофона
         findViewById(R.id.recognize_file).setEnabled(false);
         findViewById(R.id.recognize_mic).setBackgroundResource(R.drawable.btn_mic);
@@ -319,5 +343,114 @@ public class VoskActivity extends Activity implements
             onPause = !isPause;
         }
     }
+
+
+
+    private void runLua(String script) {
+        Charset charset = StandardCharsets.UTF_8;
+
+        Globals globals = JsePlatform.standardGlobals();
+
+        Bubble bubble = new Bubble(this);
+        globals.set("bubble", CoerceJavaToLua.coerce(bubble));
+        String mytext = "mytext";
+        globals.set("mytext", CoerceJavaToLua.coerce(mytext));
+        LuaValue instance = CoerceJavaToLua.coerce(new MyClass(this));
+        globals.set("obj", instance);
+
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        PrintStream outPrintStream = null;
+        try {
+            outPrintStream = new PrintStream(outStream, true, charset.name());
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        //LuaValue luaObject = CoerceJavaToLua.coerce(bubble);
+        //globals.set("bubble", luaObject);
+
+
+
+        globals.STDOUT = outPrintStream;
+        globals.STDERR = outPrintStream;
+
+
+        TextView scriptOutput = findViewById(R.id.lb_result);
+        try {
+            /*LuaValue chunk = globals.load(
+                    "print( obj );" +
+                            "print( obj.variable );" +
+                            "print( obj.field );" +
+                            "print( obj.func );" +
+                            "print( obj.method );" +
+                            "print( obj:method() );" + // same as 'obj.method(obj)'
+                            "print( obj.method(obj) );");
+            chunk.call();*/
+            globals.load(script).call();
+
+            scriptOutput.setTextColor(Color.WHITE);
+            //scriptOutput.setText(String(outStream.toByteArray(), charset));
+            scriptOutput.setText(scriptOutput.getText() + "\n" + new String(outStream.toByteArray(), charset));
+
+
+        } catch (LuaError e) {
+            scriptOutput.setTextColor(Color.RED);
+            scriptOutput.setText(scriptOutput.getText() + "\n" + e.getMessage());
+        } finally {
+            outPrintStream.close();
+        }
+    }
+
+
+    private void runLuaFromBtn()
+    {
+        //runLua("print(\"hello from luaj!\")");mytext
+        //runLua("print(mytext)");
+        //runLua("bubble:show(\"i'm bubble\")");
+        runLua("print( obj );" +
+                "print( obj.variable );" +
+                "print( obj.field );" +
+                "print( obj.func );" +
+                "print( obj.method );" +
+                "print( obj:method() );" + // same as 'obj.method(obj)'
+                "print( obj.method(obj) );");
+    }
+
+    public static class MyClass {
+        public static String variable = "variable-value";
+        public String field = "field-value";
+        public Context context;
+        MyClass(Context context)
+        {
+            this.context = context;
+        }
+
+        public static String func() {
+            return "function-result";
+        }
+
+        public String method() {
+            Toast.makeText(context, "test", Toast.LENGTH_SHORT).show();
+            return "method-result";
+        }
+    }
+
+    private static class Bubble {
+        Context context;
+        Bubble(Context context)
+        {
+            this.context = context;
+        }
+        // called from lua
+        void show(String message) {
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        }
+
+        void test() {
+            Toast.makeText(context, "TEST", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 
 }
