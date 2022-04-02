@@ -62,6 +62,7 @@ public class VoskActivity extends Activity implements
     private SpeechService speechService;
     private SpeechStreamService speechStreamService;
     private TextView resultView;
+    private boolean onPause=false;
 
     @Override
     public void onCreate(Bundle state) {
@@ -84,7 +85,7 @@ public class VoskActivity extends Activity implements
 
         findViewById(R.id.recognize_file).setOnClickListener(view -> recognizeFile());
         findViewById(R.id.recognize_mic).setOnClickListener(view -> recognizeMicrophone());
-        ((ToggleButton) findViewById(R.id.pause)).setOnCheckedChangeListener((view, isChecked) -> pause(isChecked));
+        findViewById(R.id.pause).setOnClickListener(view -> pause(onPause));
 
         LibVosk.setLogLevel(LogLevel.INFO);
 
@@ -207,35 +208,50 @@ public class VoskActivity extends Activity implements
                 resultView.setText(R.string.preparing);
                 resultView.setMovementMethod(new ScrollingMovementMethod());
                 findViewById(R.id.recognize_file).setEnabled(false);
+                findViewById(R.id.recognize_mic).setBackgroundResource(R.drawable.btn_mic);
                 findViewById(R.id.recognize_mic).setEnabled(false);
+                findViewById(R.id.pause).setBackgroundResource(R.drawable.pause_96_5_disabled);
+                onPause=false;
                 findViewById(R.id.pause).setEnabled((false));
                 break;
             case STATE_READY:
                 resultView.setText(R.string.ready);
-                ((Button) findViewById(R.id.recognize_mic)).setText(R.string.recognize_microphone);
+                //Распознать с микрофона
                 findViewById(R.id.recognize_file).setEnabled(true);
+                findViewById(R.id.recognize_mic).setBackgroundResource(R.drawable.btn_mic);
                 findViewById(R.id.recognize_mic).setEnabled(true);
+                findViewById(R.id.pause).setBackgroundResource(R.drawable.pause_96_5_disabled);
+                onPause=false;
                 findViewById(R.id.pause).setEnabled((false));
                 break;
             case STATE_DONE:
                 ((Button) findViewById(R.id.recognize_file)).setText(R.string.recognize_file);
-                ((Button) findViewById(R.id.recognize_mic)).setText(R.string.recognize_microphone);
+                //Распознать с микрофона
                 findViewById(R.id.recognize_file).setEnabled(true);
+                findViewById(R.id.recognize_mic).setBackgroundResource(R.drawable.btn_mic);
                 findViewById(R.id.recognize_mic).setEnabled(true);
+                findViewById(R.id.pause).setBackgroundResource(R.drawable.pause_96_5_disabled);
+                onPause=false;
                 findViewById(R.id.pause).setEnabled((false));
                 break;
             case STATE_FILE:
                 ((Button) findViewById(R.id.recognize_file)).setText(R.string.stop_file);
                 resultView.setText(getString(R.string.starting));
+                findViewById(R.id.recognize_mic).setBackgroundResource(R.drawable.btn_stop);
                 findViewById(R.id.recognize_mic).setEnabled(false);
                 findViewById(R.id.recognize_file).setEnabled(true);
+                findViewById(R.id.pause).setBackgroundResource(R.drawable.pause_96_5_disabled);
+                onPause=false;
                 findViewById(R.id.pause).setEnabled((false));
                 break;
             case STATE_MIC:
-                ((Button) findViewById(R.id.recognize_mic)).setText(R.string.stop_microphone);
+                //Прекратить распознавание
                 resultView.setText(getString(R.string.say_something));
                 findViewById(R.id.recognize_file).setEnabled(false);
+                findViewById(R.id.recognize_mic).setBackgroundResource(R.drawable.btn_stop);
                 findViewById(R.id.recognize_mic).setEnabled(true);
+                findViewById(R.id.pause).setBackgroundResource(R.drawable.btn_mic_pause);
+                onPause=false;
                 findViewById(R.id.pause).setEnabled((true));
                 break;
             default:
@@ -245,9 +261,11 @@ public class VoskActivity extends Activity implements
 
     private void setErrorState(String message) {
         resultView.setText(message);
-        Toast.makeText(getApplicationContext(),"error:"+message,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(),"error:"+message,Toast.LENGTH_SHORT).show();
         ((Button) findViewById(R.id.recognize_mic)).setText(R.string.recognize_microphone);
+        //Распознать с микрофона
         findViewById(R.id.recognize_file).setEnabled(false);
+        findViewById(R.id.recognize_mic).setBackgroundResource(R.drawable.btn_mic);
         findViewById(R.id.recognize_mic).setEnabled(false);
     }
 
@@ -279,6 +297,7 @@ public class VoskActivity extends Activity implements
             setUiState(STATE_DONE);
             speechService.stop();
             speechService = null;
+            onPause=true;
         } else {
             setUiState(STATE_MIC);
             try {
@@ -292,9 +311,12 @@ public class VoskActivity extends Activity implements
     }
 
 
-    private void pause(boolean checked) {
+    private void pause(boolean isPause) {
         if (speechService != null) {
-            speechService.setPause(checked);
+            if(!isPause) findViewById(R.id.pause).setBackgroundResource(R.drawable.btn_mic_play);
+            else findViewById(R.id.pause).setBackgroundResource(R.drawable.btn_mic_pause);
+            speechService.setPause(!isPause);
+            onPause = !isPause;
         }
     }
 
