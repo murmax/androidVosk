@@ -139,7 +139,8 @@ public class VoskActivity extends Activity implements
 
     private void goToEditCommands()
     {
-        Intent intent = new Intent(this, CommandsActivity.class);
+        //Intent intent = new Intent(this, CommandsActivity.class);
+        Intent intent = new Intent(this, FunctionsActivity.class);
         startActivity(intent);
     }
 
