@@ -26,7 +26,6 @@ import android.text.method.ScrollingMovementMethod;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaTable;
@@ -118,6 +117,7 @@ public class VoskActivity extends Activity implements
         }
 
         findViewById(R.id.btn_editCommands).setOnClickListener(view -> goToEditCommands());
+        findViewById(R.id.btn_editFunctions).setOnClickListener(view -> goToEditFunctions());
         findViewById(R.id.btn_runScript).setOnClickListener(view -> runLuaFromBtn());
 
 
@@ -139,7 +139,12 @@ public class VoskActivity extends Activity implements
 
     private void goToEditCommands()
     {
-        //Intent intent = new Intent(this, CommandsActivity.class);
+        Intent intent = new Intent(this, CommandsActivity.class);
+        startActivity(intent);
+    }
+
+    private void goToEditFunctions()
+    {
         Intent intent = new Intent(this, FunctionsActivity.class);
         startActivity(intent);
     }
