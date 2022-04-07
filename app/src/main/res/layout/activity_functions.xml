@@ -15,16 +15,8 @@
 
         <TextView
             android:id="@+id/textView_FunctionsTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="center_vertical"
-            android:minHeight="70dp"
-            android:padding="10dp"
-            android:text="Функции"
-            android:textColor="#444444"
-            android:textSize="24sp" />
+            style="@style/ActivityTitleStyle"
+            android:text="Функции" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -33,7 +25,7 @@
             android:orientation="vertical">
 
             <ImageButton
-                android:id="@+id/imageButton_close"
+                android:id="@+id/imageButton_closeFunctionsActivity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -61,21 +53,6 @@
                 style="@style/TextViewStyleForTableHeaderCell"
                 android:text="Описание" />
         </TableRow>
-        <!--
-        <TableRow
-            style="@style/TableRowStyle">
-
-            <TextView
-                android:id="@+id/textView_FuncName2"
-                style="@style/TextViewStyleForTableRowCell"
-                android:text="Function name()" />
-
-            <TextView
-                android:id="@+id/textView_FuncDescription2"
-                style="@style/TextViewStyleForTableRowCell"
-                android:text="Как странно, что так подробно приходится  описывать все параметры строк таблицы, чтобы получить несложный результат" />
-        </TableRow>
-        -->
         <LinearLayout
             android:id="@+id/plusRow"
             style="@style/TableRowStyle"
