@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="ActivityTitleStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:minHeight">70dp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:textColor">#444444</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
     <style name="TableLayoutStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -18,13 +30,13 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_margin">1dp</item>
         <item name="android:layout_weight">1</item>
+        <item name="android:maxWidth">0dp</item>
         <item name="android:padding">3dp</item>
         <item name="android:background">#FFFFFF</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:gravity">left</item>
         <item name="android:textColor">#444444</item>
         <item name="android:singleLine">false</item>
-        <item name="android:maxWidth">0dp</item>
         <item name="android:textSize">18sp</item>
     </style>
 
@@ -33,6 +45,7 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_margin">1dp</item>
         <item name="android:layout_weight">1</item>
+        <item name="android:maxWidth">0dp</item>
         <item name="android:padding">1dp</item>
         <item name="android:background">#FFFFFF</item>
         <item name="android:fontFamily">sans-serif-medium</item>
