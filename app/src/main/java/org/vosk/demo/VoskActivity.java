@@ -48,7 +48,9 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -67,6 +69,8 @@ public class VoskActivity extends Activity implements
 
     static public List<Command> commands =  new ArrayList<Command>();
     static public List<ExecutableFunction> functions = new ArrayList<ExecutableFunction>();
+    static public Map<String, String> varsString = new HashMap<String, String>();
+    static public Map<String, Integer> varsInt = new HashMap<String, Integer>();
 
     static private final int STATE_START = 0;
     static private final int STATE_READY = 1;
@@ -83,11 +87,13 @@ public class VoskActivity extends Activity implements
     private TextView resultView;
     private boolean onPause=false;
 
+
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
         setContentView(R.layout.main);
-        ExecutableFunction func = new ExecutableFunction(getApplicationContext());
+        ExecutableFunction func = new ExecutableFunction(this,"example","print( obj:method(msg) );",new HashMap<>());
+
 
 
         if (functions != null)
@@ -196,10 +202,15 @@ public class VoskActivity extends Activity implements
         //Toast.makeText(getApplicationContext(),"Результат:"+result,Toast.LENGTH_SHORT).show();
 
         for (Command com: commands) {
-            if (com.checkCommand(result))
+            Command.ParsedCommand res = com.checkCommand(result);
+            if (res.isSure)
             {
                 resultView.append(com.name + " worked!" + "\n");
-                com.execute();
+                this.runLua(com.func.luaCode,res.args);
+                //com.execute();
+            }
+            for (Map.Entry<String, String> entry : res.args.entrySet()) {
+                resultView.append(entry.getKey() + " - "+ entry.getValue() + "\n");
             }
         }
 
@@ -351,16 +362,23 @@ public class VoskActivity extends Activity implements
     }
 
 
-
-    private void runLua(String script) {
+    public void runLua(String script, Map<String, String> args) {
         Charset charset = StandardCharsets.UTF_8;
 
         Globals globals = JsePlatform.standardGlobals();
+//
+//        Bubble bubble = new Bubble(this);
+//        globals.set("bubble", CoerceJavaToLua.coerce(bubble));
+//        String mytext = "mytext";
+//        globals.set("mytext", CoerceJavaToLua.coerce(mytext));
 
-        Bubble bubble = new Bubble(this);
-        globals.set("bubble", CoerceJavaToLua.coerce(bubble));
-        String mytext = "mytext";
-        globals.set("mytext", CoerceJavaToLua.coerce(mytext));
+        for (Map.Entry<String, String> entry : args.entrySet()) {
+            globals.set(entry.getKey(), CoerceJavaToLua.coerce(entry.getValue()));
+        }
+        for (Map.Entry<String, String> entry : varsString.entrySet()) {
+            globals.set(entry.getKey(), CoerceJavaToLua.coerce(entry.getValue()));
+        }
+
         LuaValue instance = CoerceJavaToLua.coerce(new MyClass(this));
         globals.set("obj", instance);
 
@@ -372,30 +390,15 @@ public class VoskActivity extends Activity implements
             e.printStackTrace();
         }
 
-        //LuaValue luaObject = CoerceJavaToLua.coerce(bubble);
-        //globals.set("bubble", luaObject);
-
-
-
         globals.STDOUT = outPrintStream;
         globals.STDERR = outPrintStream;
 
 
         TextView scriptOutput = findViewById(R.id.lb_result);
         try {
-            /*LuaValue chunk = globals.load(
-                    "print( obj );" +
-                            "print( obj.variable );" +
-                            "print( obj.field );" +
-                            "print( obj.func );" +
-                            "print( obj.method );" +
-                            "print( obj:method() );" + // same as 'obj.method(obj)'
-                            "print( obj.method(obj) );");
-            chunk.call();*/
             globals.load(script).call();
 
             scriptOutput.setTextColor(Color.WHITE);
-            //scriptOutput.setText(String(outStream.toByteArray(), charset));
             scriptOutput.setText(scriptOutput.getText() + "\n" + new String(outStream.toByteArray(), charset));
 
 
@@ -410,16 +413,13 @@ public class VoskActivity extends Activity implements
 
     private void runLuaFromBtn()
     {
-        //runLua("print(\"hello from luaj!\")");mytext
-        //runLua("print(mytext)");
-        //runLua("bubble:show(\"i'm bubble\")");
         runLua("print( obj );" +
                 "print( obj.variable );" +
                 "print( obj.field );" +
                 "print( obj.func );" +
                 "print( obj.method );" +
                 "print( obj:method() );" + // same as 'obj.method(obj)'
-                "print( obj.method(obj) );");
+                "print( obj.method(obj) );",new HashMap<>());
     }
 
     public static class MyClass {
@@ -435,9 +435,9 @@ public class VoskActivity extends Activity implements
             return "function-result";
         }
 
-        public String method() {
-            Toast.makeText(context, "test", Toast.LENGTH_SHORT).show();
-            return "method-result";
+        public String method(String text) {
+            Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+            return "method-result"+text;
         }
     }
 

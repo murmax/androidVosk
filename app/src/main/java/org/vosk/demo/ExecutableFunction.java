@@ -3,20 +3,27 @@ package org.vosk.demo;
 import android.content.Context;
 import android.widget.Toast;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ExecutableFunction {
-    Context context;
-    ExecutableFunction(Context c)
+    VoskActivity activity;
+    String name;
+    String luaCode;
+    Map<String, String> args = new HashMap<>();
+
+    ExecutableFunction(VoskActivity a, String name, String luaCode, Map<String, String> args)
     {
-        this.context = c;
+        this.activity = a;
+        this.name = name;
+        this.luaCode = luaCode;
+        this.args = args;
     }
 
 
     void exec()
     {
-        CharSequence text = "Hello toast!";
-        int duration = Toast.LENGTH_SHORT;
-
-        Toast.makeText(context, text, duration).show();
+        activity.runLua(luaCode,args);
     }
 
 }
