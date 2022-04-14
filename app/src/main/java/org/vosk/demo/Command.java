@@ -35,13 +35,6 @@ public class Command {
     }
 
 
-    void execute()
-    {
-        if (func!=null)
-        {
-            func.exec();
-        }
-    }
 
     private static class ThreeStringSplit
     {

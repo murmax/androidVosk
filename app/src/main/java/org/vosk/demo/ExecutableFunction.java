@@ -7,23 +7,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ExecutableFunction {
-    VoskActivity activity;
+    //VoskActivity activity;
     String name;
     String luaCode;
-    Map<String, String> args = new HashMap<>();
 
-    ExecutableFunction(VoskActivity a, String name, String luaCode, Map<String, String> args)
+    ExecutableFunction( String name, String luaCode)
     {
-        this.activity = a;
+        //this.activity = a;
         this.name = name;
         this.luaCode = luaCode;
-        this.args = args;
     }
 
 
     void exec()
     {
-        activity.runLua(luaCode,args);
+        //activity.runLua(luaCode,args);
     }
 
 }

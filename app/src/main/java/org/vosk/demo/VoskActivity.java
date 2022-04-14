@@ -14,15 +14,21 @@
 
 package org.vosk.demo;
 
+
 import android.Manifest;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
 import android.media.Image;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -88,20 +94,158 @@ public class VoskActivity extends Activity implements
     private boolean onPause=false;
 
 
+    public static DBHelper dbHelper;
+
+    static public void addCommand(Command com)
+    {
+        if (findCommandByName(com.name)!=null)
+        {
+            return;
+        }
+        commands.add(com);
+        ContentValues cv = new ContentValues();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        cv.put("name", com.name);
+        cv.put("phonetic", com.phonetic);
+        cv.put("func", com.phonetic);
+        // вставляем запись и получаем ее ID
+        db.insert("commands", null, cv);
+        dbHelper.close();
+    }
+
+    static public void updateCommand(Command com)
+    {
+        removeCommand(com);
+        addCommand(com);
+    }
+    static public void removeCommand(Command com)
+    {
+
+        commands.remove(com);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        db.delete("commands", "name = '" + com.name+"'", null);
+        dbHelper.close();
+    }
+    static public Command findCommandByName(String name)
+    {
+        for (Command com: commands
+             ) {
+            if (com.name.equals(name)) return com;
+        }
+        return null;
+    }
+
+
+
+    static public void addExecutableFunction(ExecutableFunction func)
+    {
+        if (findExecutableFunctionByName(func.name)!=null)
+        {
+            return;
+        }
+        functions.add(func);
+        ContentValues cv = new ContentValues();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        cv.put("name", func.name);
+        cv.put("code", func.luaCode);
+        // вставляем запись и получаем ее ID
+        db.insert("funcs", null, cv);
+        dbHelper.close();
+    }
+
+    static public void updateExecutableFunction(ExecutableFunction func)
+    {
+        removeExecutableFunction(func);
+        addExecutableFunction(func);
+    }
+    static public void removeExecutableFunction(ExecutableFunction func)
+    {
+
+        functions.remove(func);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        db.delete("funcs", "name = '" + func.name+"'", null);
+        dbHelper.close();
+    }
+    static public ExecutableFunction findExecutableFunctionByName(String name)
+    {
+        for (ExecutableFunction func: functions
+        ) {
+            if (func.name.equals(name)) return func;
+        }
+        return null;
+    }
+
+    final String LOG_TAG = "myLogs";
+
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
         setContentView(R.layout.main);
-        ExecutableFunction func = new ExecutableFunction(this,"example","print( obj:method(msg) );",new HashMap<>());
-
-
-
-        if (functions != null)
-            functions.add( func);
-        else
-        {
-            Toast.makeText(getApplicationContext(),"ERROR!",Toast.LENGTH_SHORT).show();
+        if (dbHelper == null) {
+            dbHelper = new DBHelper(this);
         }
+
+        // создаем объект для данных
+        // подключаемся к БД
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor c = db.query("funcs", null, null, null, null, null, null);
+
+        if (c.moveToFirst()) {
+
+            // определяем номера столбцов по имени в выборке
+            int nameColIndex = c.getColumnIndex("name");
+            int codeColIndex = c.getColumnIndex("code");
+
+            do {
+                // получаем значения по номерам столбцов и пишем все в лог
+                ExecutableFunction f = new ExecutableFunction(
+                        c.getString(nameColIndex),
+                        c.getString(codeColIndex)
+                );
+                functions.add(f);
+                // переход на следующую строку
+                // а если следующей нет (текущая - последняя), то false - выходим из цикла
+            } while (c.moveToNext());
+        }
+        c.close();
+
+
+        c = db.query("commands", null, null, null, null, null, null);
+
+        if (c.moveToFirst()) {
+
+            // определяем номера столбцов по имени в выборке
+            int nameColIndex = c.getColumnIndex("name");
+            int phoneticColIndex = c.getColumnIndex("phonetic");
+            int funcColIndex = c.getColumnIndex("func");
+
+            do {
+                // получаем значения по номерам столбцов и пишем все в лог
+                commands.add(
+                        new Command(
+                                c.getString(nameColIndex),
+                                c.getString(phoneticColIndex),
+                                findExecutableFunctionByName(
+                                        c.getString(funcColIndex)
+                                )
+                        )
+                );
+
+            } while (c.moveToNext());
+        }
+        c.close();
+
+
+        dbHelper.close();
+        //ExecutableFunction func = new ExecutableFunction("example","print( obj:method(msg) );");
+
+
+
+
 
 
         // Setup layout
@@ -441,19 +585,36 @@ public class VoskActivity extends Activity implements
         }
     }
 
-    private static class Bubble {
-        Context context;
-        Bubble(Context context)
-        {
-            this.context = context;
-        }
-        // called from lua
-        void show(String message) {
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+
+
+
+    class DBHelper extends SQLiteOpenHelper {
+
+        public DBHelper(Context context) {
+            // конструктор суперкласса
+            super(context, "murmaxDB", null, 1);
         }
 
-        void test() {
-            Toast.makeText(context, "TEST", Toast.LENGTH_SHORT).show();
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+            // создаем таблицу с полями
+            db.execSQL("create table commands ("
+                    + "name varchar primary key,"
+                    + "phonetic varchar,"
+                    + "func varchar" + ");");
+
+            db.execSQL("create table funcs ("
+                    + "name varchar primary key,"
+                    + "code varchar" + ");");
+
+            db.execSQL("create table varsString ("
+                    + "keyName varchar primary key,"
+                    + "value varchar" + ");");
+        }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
         }
     }
 
