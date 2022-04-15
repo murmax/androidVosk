@@ -55,7 +55,7 @@ public class EditFunctionActivity extends AppCompatActivity {
 
         EditText le_name = findViewById(R.id.le_functionName);
         le_name.setText(func.name);
-        EditText le_code = findViewById(R.id.le_222);
+        EditText le_code = findViewById(R.id.editText_FunctionCode);
         le_code.setText(func.luaCode);
 
         /*for (Map.Entry<String, String> entry : func.args.entrySet()) {
@@ -75,7 +75,7 @@ public class EditFunctionActivity extends AppCompatActivity {
     {
 
         EditText le_name = findViewById(R.id.le_functionName);
-        EditText le_code = findViewById(R.id.le_222);
+        EditText le_code = findViewById(R.id.editText_FunctionCode);
         func.name = le_name.getText().toString();
         func.luaCode = le_code.getText().toString();
         VoskActivity.updateExecutableFunction(func);

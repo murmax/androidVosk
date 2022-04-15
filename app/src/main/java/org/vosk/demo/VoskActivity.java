@@ -108,7 +108,7 @@ public class VoskActivity extends Activity implements
         cv.put("id", com.getId());
         cv.put("name", com.name);
         cv.put("phonetic", com.phonetic);
-        cv.put("func", com.phonetic);
+        cv.put("func", com.func.getId());
         // вставляем запись и получаем ее ID
         db.insert("commands", null, cv);
         dbHelper.close();
@@ -141,7 +141,7 @@ public class VoskActivity extends Activity implements
 
     static public void addExecutableFunction(ExecutableFunction func)
     {
-        if (findExecutableFunctionByName(func.name)!=null)
+        if (findExecutableFunctionById(func.getId())!=null)
         {
             return;
         }
@@ -172,6 +172,16 @@ public class VoskActivity extends Activity implements
         db.delete("funcs", "id = '" + func.getId()+"'", null);
         dbHelper.close();
     }
+    static public ExecutableFunction findExecutableFunctionById(int id)
+    {
+        for (ExecutableFunction func: functions
+        ) {
+            if (func.getId()==id) return func;
+        }
+        return null;
+    }
+
+
     static public ExecutableFunction findExecutableFunctionByName(String name)
     {
         for (ExecutableFunction func: functions
@@ -183,7 +193,7 @@ public class VoskActivity extends Activity implements
 
     static public boolean addVariable(Variable var)
     {
-        if (findVariableByName(var.name)!=null)
+        if (findVariableById(var.getId())!=null)
         {
             return false;
         }
@@ -215,11 +225,11 @@ public class VoskActivity extends Activity implements
         db.delete("variables", "id = '" + var.getId()+"'", null);
         dbHelper.close();
     }
-    static public Variable findVariableByName(String name)
+    static public Variable findVariableById(int id)
     {
         for (Variable var: vars
         ) {
-            if (var.name.equals(name)) return var;
+            if (var.getId() == id) return var;
         }
         return null;
     }
@@ -281,8 +291,8 @@ public class VoskActivity extends Activity implements
                         new Command(
                                 c.getString(nameColIndex),
                                 c.getString(phoneticColIndex),
-                                findExecutableFunctionByName(
-                                        c.getString(funcColIndex)
+                                findExecutableFunctionById(
+                                        c.getInt(funcColIndex)
                                 ),
                                 c.getInt(idColIndex)
                         )

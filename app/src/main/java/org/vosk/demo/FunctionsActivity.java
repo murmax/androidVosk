@@ -15,8 +15,8 @@ import android.widget.TextView;
 import java.util.HashMap;
 
 public class FunctionsActivity extends AppCompatActivity {
-    ImageButton imageButton_AddFunction;
-    TableLayout tableLayout_Functions;
+    private ImageButton imageButton_AddFunction;
+    private TableLayout tableLayout_Functions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class FunctionsActivity extends AppCompatActivity {
 
     private void fillRows()
     {
-        tableLayout_Functions.removeViews(0,tableLayout_Functions.getChildCount()-1);
+        tableLayout_Functions.removeViews(1,tableLayout_Functions.getChildCount()-2);
         //tableLayout_Functions.removeAllViews();
         for (ExecutableFunction func: VoskActivity.functions
              ) {
@@ -70,10 +70,10 @@ public class FunctionsActivity extends AppCompatActivity {
             }
         });
         TextView tv0 = (TextView) tr.findViewById(R.id.col0);
-        int index = tableLayout_Functions.indexOfChild(tableLayout_Functions.findViewById(R.id.plusRow));
+        int index = tableLayout_Functions.indexOfChild(tableLayout_Functions.findViewById(R.id.plusRowFunctions));
         tv0.setText(func.name);
         TextView tv1 = (TextView) tr.findViewById(R.id.col1);
-        tv1.setText("Описание");
+        tv1.setText(func.descr);
         //tv0.setOnClickListener(view -> openEditFunctionActivity());
         //tv1.setOnClickListener(view -> openEditFunctionActivity());
         tableLayout_Functions.addView(tr, index);

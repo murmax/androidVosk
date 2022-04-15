@@ -13,9 +13,13 @@
         android:label="@string/app_name"
         tools:targetApi="s">
         <activity
+            android:name=".EditCommandActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity
             android:name=".EditFunctionActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"/>
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity
             android:name=".FunctionsActivity"
             android:exported="false"
@@ -24,7 +28,7 @@
             android:name=".CommandsActivity"
             android:exported="false"
             android:label="@string/title_activity_commands"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity
             android:name=".VoskActivity"
             android:exported="true">
