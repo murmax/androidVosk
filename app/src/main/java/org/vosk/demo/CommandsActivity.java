@@ -94,7 +94,7 @@ public class CommandsActivity extends AppCompatActivity {
             return;
         }
 
-        Command com = new Command(name,phonetic,func);
+        Command com = new Command(name,phonetic,func,null);
         VoskActivity.addCommand(com);
         Toast.makeText(getApplicationContext(),"Создана команда "+name,Toast.LENGTH_SHORT).show();
     }

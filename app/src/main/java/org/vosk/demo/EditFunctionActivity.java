@@ -37,7 +37,7 @@ public class EditFunctionActivity extends AppCompatActivity {
         int b = (int) getIntent().getExtras().get("func");
         for (ExecutableFunction f : VoskActivity.functions
         ) {
-            if (f.hashCode() == b)
+            if (f.getId() == b)
             {
                 this.func = f;
                 break;
@@ -79,6 +79,7 @@ public class EditFunctionActivity extends AppCompatActivity {
         func.name = le_name.getText().toString();
         func.luaCode = le_code.getText().toString();
         VoskActivity.updateExecutableFunction(func);
+        finish();
     }
 
 

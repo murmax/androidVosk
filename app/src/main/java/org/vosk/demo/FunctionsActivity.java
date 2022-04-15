@@ -49,14 +49,14 @@ public class FunctionsActivity extends AppCompatActivity {
         LayoutInflater inflater = LayoutInflater.from(this);
         TableRow tr = (TableRow) inflater.inflate(R.layout.table_row, null);
         tr.setClickable(true);
-        tr.setId(func.hashCode());
+        tr.setId(func.getId());
         tr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ExecutableFunction foundFunc = null;
                 for (ExecutableFunction func : VoskActivity.functions
                 ) {
-                    if (func.hashCode() == v.getId())
+                    if (func.getId() == v.getId())
                     {
                         foundFunc = func;
                         break;
@@ -64,7 +64,7 @@ public class FunctionsActivity extends AppCompatActivity {
                 }
                 if (foundFunc!=null) {
                     Intent intent = new Intent(FunctionsActivity.this, EditFunctionActivity.class);
-                    intent.putExtra("func", foundFunc.hashCode());
+                    intent.putExtra("func", foundFunc.getId());
                     startActivity(intent);
                 }
             }
@@ -86,7 +86,7 @@ public class FunctionsActivity extends AppCompatActivity {
         {
             name = name+"1";
         }
-        VoskActivity.addExecutableFunction(new ExecutableFunction(name,""));
+        VoskActivity.addExecutableFunction(new ExecutableFunction(name,"","",null));
         fillRows();
     }
 

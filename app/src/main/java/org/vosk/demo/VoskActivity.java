@@ -75,8 +75,7 @@ public class VoskActivity extends Activity implements
 
     static public List<Command> commands =  new ArrayList<Command>();
     static public List<ExecutableFunction> functions = new ArrayList<ExecutableFunction>();
-    static public Map<String, String> varsString = new HashMap<String, String>();
-    static public Map<String, Integer> varsInt = new HashMap<String, Integer>();
+    static public List<Variable> vars = new ArrayList<Variable>();
 
     static private final int STATE_START = 0;
     static private final int STATE_READY = 1;
@@ -106,6 +105,7 @@ public class VoskActivity extends Activity implements
         ContentValues cv = new ContentValues();
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
+        cv.put("id", com.getId());
         cv.put("name", com.name);
         cv.put("phonetic", com.phonetic);
         cv.put("func", com.phonetic);
@@ -125,7 +125,7 @@ public class VoskActivity extends Activity implements
         commands.remove(com);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        db.delete("commands", "name = '" + com.name+"'", null);
+        db.delete("commands", "id = '" + com.getId()+"'", null);
         dbHelper.close();
     }
     static public Command findCommandByName(String name)
@@ -149,7 +149,9 @@ public class VoskActivity extends Activity implements
         ContentValues cv = new ContentValues();
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
+        cv.put("id", func.getId());
         cv.put("name", func.name);
+        cv.put("descr", func.descr);
         cv.put("code", func.luaCode);
         // вставляем запись и получаем ее ID
         db.insert("funcs", null, cv);
@@ -167,7 +169,7 @@ public class VoskActivity extends Activity implements
         functions.remove(func);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        db.delete("funcs", "name = '" + func.name+"'", null);
+        db.delete("funcs", "id = '" + func.getId()+"'", null);
         dbHelper.close();
     }
     static public ExecutableFunction findExecutableFunctionByName(String name)
@@ -178,6 +180,51 @@ public class VoskActivity extends Activity implements
         }
         return null;
     }
+
+    static public boolean addVariable(Variable var)
+    {
+        if (findVariableByName(var.name)!=null)
+        {
+            return false;
+        }
+        vars.add(var);
+        ContentValues cv = new ContentValues();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        cv.put("id", var.getId());
+        cv.put("name", var.name);
+        cv.put("descr", var.descr);
+        cv.put("value", var.value);
+        // вставляем запись и получаем ее ID
+        db.insert("variables", null, cv);
+        dbHelper.close();
+        return true;
+    }
+
+    static public void updateVariable(Variable var)
+    {
+        removeVariable(var);
+        addVariable(var);
+    }
+    static public void removeVariable(Variable var)
+    {
+
+        vars.remove(var);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        db.delete("variables", "id = '" + var.getId()+"'", null);
+        dbHelper.close();
+    }
+    static public Variable findVariableByName(String name)
+    {
+        for (Variable var: vars
+        ) {
+            if (var.name.equals(name)) return var;
+        }
+        return null;
+    }
+
+
 
     final String LOG_TAG = "myLogs";
 
@@ -197,14 +244,18 @@ public class VoskActivity extends Activity implements
         if (c.moveToFirst()) {
 
             // определяем номера столбцов по имени в выборке
+            int idColIndex = c.getColumnIndex("id");
             int nameColIndex = c.getColumnIndex("name");
             int codeColIndex = c.getColumnIndex("code");
+            int descrColIndex = c.getColumnIndex("descr");
 
             do {
                 // получаем значения по номерам столбцов и пишем все в лог
                 ExecutableFunction f = new ExecutableFunction(
                         c.getString(nameColIndex),
-                        c.getString(codeColIndex)
+                        c.getString(codeColIndex),
+                        c.getString(descrColIndex),
+                        c.getInt(idColIndex)
                 );
                 functions.add(f);
                 // переход на следующую строку
@@ -219,6 +270,7 @@ public class VoskActivity extends Activity implements
         if (c.moveToFirst()) {
 
             // определяем номера столбцов по имени в выборке
+            int idColIndex = c.getColumnIndex("id");
             int nameColIndex = c.getColumnIndex("name");
             int phoneticColIndex = c.getColumnIndex("phonetic");
             int funcColIndex = c.getColumnIndex("func");
@@ -231,7 +283,35 @@ public class VoskActivity extends Activity implements
                                 c.getString(phoneticColIndex),
                                 findExecutableFunctionByName(
                                         c.getString(funcColIndex)
-                                )
+                                ),
+                                c.getInt(idColIndex)
+                        )
+                );
+
+            } while (c.moveToNext());
+        }
+        c.close();
+
+
+        c = db.query("variables", null, null, null, null, null, null);
+
+        if (c.moveToFirst()) {
+
+            // определяем номера столбцов по имени в выборке
+            int idColIndex = c.getColumnIndex("id");
+            int nameColIndex = c.getColumnIndex("name");
+            int descrColIndex = c.getColumnIndex("descr");
+            int valueColIndex = c.getColumnIndex("value");
+
+            do {
+                // получаем значения по номерам столбцов и пишем все в лог
+                vars.add(
+                        new Variable(
+                                c.getString(nameColIndex),
+                                c.getString(descrColIndex),
+                                c.getString(valueColIndex),
+                                c.getInt(idColIndex)
+
                         )
                 );
 
@@ -241,7 +321,7 @@ public class VoskActivity extends Activity implements
 
 
         dbHelper.close();
-        //ExecutableFunction func = new ExecutableFunction("example","print( obj:method(msg) );");
+        ExecutableFunction func = new ExecutableFunction("Пример","print( obj:method(msg) );","Пишет сообщение, принимает параметр <msg>",null);
 
 
 
@@ -519,8 +599,9 @@ public class VoskActivity extends Activity implements
         for (Map.Entry<String, String> entry : args.entrySet()) {
             globals.set(entry.getKey(), CoerceJavaToLua.coerce(entry.getValue()));
         }
-        for (Map.Entry<String, String> entry : varsString.entrySet()) {
-            globals.set(entry.getKey(), CoerceJavaToLua.coerce(entry.getValue()));
+
+        for (Variable var: vars) {
+            globals.set(var.name, CoerceJavaToLua.coerce(var.value));
         }
 
         LuaValue instance = CoerceJavaToLua.coerce(new MyClass(this));
@@ -592,29 +673,64 @@ public class VoskActivity extends Activity implements
 
         public DBHelper(Context context) {
             // конструктор суперкласса
-            super(context, "murmaxDB", null, 1);
+            super(context, "murmaxDB", null, 3);
         }
 
         @Override
         public void onCreate(SQLiteDatabase db) {
             // создаем таблицу с полями
             db.execSQL("create table commands ("
-                    + "name varchar primary key,"
+                    + "id integer primary key,"
+                    + "name varchar,"
                     + "phonetic varchar,"
-                    + "func varchar" + ");");
+                    + "func int" + ");");
 
             db.execSQL("create table funcs ("
-                    + "name varchar primary key,"
+                    + "id integer primary key,"
+                    + "name varchar,"
+                    + "descr varchar,"
                     + "code varchar" + ");");
 
-            db.execSQL("create table varsString ("
-                    + "keyName varchar primary key,"
+            db.execSQL("create table variables ("
+                    + "id integer primary key,"
+                    + "name varchar,"
+                    + "descr varchar,"
                     + "value varchar" + ");");
+
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+
+            if (oldVersion==1) {
+                db.execSQL("drop table varsString;");
+
+                db.execSQL("create table variables ("
+                        + "id integer primary key,"
+                        + "name varchar,"
+                        + "descr varchar,"
+                        + "value varchar" + ");");
+                oldVersion=2;
+            }
+            if (oldVersion==2){
+                db.execSQL("drop table commands;");
+                db.execSQL("drop table funcs;");
+
+
+                db.execSQL("create table commands ("
+                        + "id integer primary key,"
+                        + "name varchar,"
+                        + "phonetic varchar,"
+                        + "func int" + ");");
+
+                db.execSQL("create table funcs ("
+                        + "id integer primary key,"
+                        + "name varchar,"
+                        + "descr varchar,"
+                        + "code varchar" + ");");
+
+            }
         }
     }
 

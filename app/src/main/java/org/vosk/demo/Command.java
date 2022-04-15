@@ -9,6 +9,13 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 public class Command {
+    static private  int maxId = 1;
+
+    public int getId() {
+        return id;
+    }
+
+    private final int id;
     String phonetic;
     String name;
     ExecutableFunction func;
@@ -27,8 +34,16 @@ public class Command {
     }
 
 
-    Command(String name, String phonetic,ExecutableFunction func)
+    Command(String name, String phonetic,ExecutableFunction func,Integer id)
     {
+        if (id==null) {
+            maxId++;
+            this.id = maxId;
+        } else
+        {
+            this.id = id;
+            if (id>maxId) maxId=id;
+        }
         this.name = name;
         this.phonetic = phonetic;
         this.func = func;
