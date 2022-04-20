@@ -44,7 +44,7 @@
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="108dp"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_marginVertical="1dp"
             android:layout_marginStart="1dp"
@@ -85,88 +85,106 @@
 
         <TextView
             android:id="@+id/textView2"
-            android:layout_width="108dp"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
+            android:layout_marginVertical="1dp"
             android:layout_marginStart="1dp"
             android:layout_marginEnd="1dp"
             android:fontFamily="sans-serif-medium"
             android:gravity="left"
-            android:paddingVertical="1dp"
+            android:paddingVertical="3dp"
             android:paddingHorizontal="3dp"
+            android:text="Описание:"
             android:textColor="#444444"
-            android:textSize="18sp"
-            android:text="Аргументы:" />
+            android:textSize="18sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="1dp"
+            android:background="#666666">
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="#FFFFFF">
 
-        <TableLayout
-            android:id="@+id/tableLayout_Args"
-            style="@style/TableLayoutStyle">
-
-            <TableRow style="@style/TableRowStyle">
-
-                <TextView
-                    android:id="@+id/textView_ArgNameHeader"
-                    style="@style/TextViewStyleForTableHeaderCell"
-                    android:text="Название" />
-
-                <TextView
-                    android:id="@+id/textView_ArgTypeHeader"
-                    style="@style/TextViewStyleForTableHeaderCell"
-                    android:text="Тип" />
-            </TableRow>
-        </TableLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <EditText
+                        android:id="@+id/le_FunctionDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="1dp"
+                        android:fontFamily="sans-serif"
+                        android:gravity="left"
+                        android:paddingVertical="3dp"
+                        android:paddingLeft="3dp"
+                        android:textColor="#444444"
+                        android:background="#FFFFFF"
+                        android:textSize="18sp"
+                        android:text="Description will be here." />
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="1dp"
-        android:layout_marginStart="1dp"
-        android:fontFamily="sans-serif-medium"
-        android:gravity="left"
-        android:paddingVertical="3dp"
-        android:paddingHorizontal="3dp"
-        android:textColor="#444444"
-        android:textSize="18sp"
-        android:text="Код" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="1dp"
-        android:background="#666666">
+        android:orientation="horizontal"
+        android:paddingBottom="10dp">
 
-        <ScrollView
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="1dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="left"
+            android:paddingVertical="3dp"
+            android:paddingHorizontal="3dp"
+            android:text="Код:"
+            android:textColor="#444444"
+            android:textSize="18sp" />
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="251dp"
-            android:background="#FFFFFF">
-
-            <LinearLayout
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="1dp"
+            android:background="#666666">
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="250dp"
+                android:background="#FFFFFF">
 
-                <EditText
-                    android:id="@+id/editText_FunctionCode"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="1dp"
-                    android:background="#FFFFFF"
-                    android:fontFamily="sans-serif"
-                    android:gravity="left"
-                    android:minHeight="48dp"
-                    android:paddingVertical="3dp"
-                    android:paddingLeft="3dp"
-                    android:text="Code will be here."
-                    android:textColor="#444444"
-                    android:textSize="18sp"
-                    android:visibility="visible"
-                    tools:visibility="visible" />
-            </LinearLayout>
-        </ScrollView>
+                    android:orientation="vertical">
+                    <EditText
+                        android:id="@+id/le_functionCode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="1dp"
+                        android:fontFamily="sans-serif"
+                        android:gravity="left"
+                        android:paddingVertical="3dp"
+                        android:paddingLeft="3dp"
+                        android:textColor="#444444"
+                        android:background="#FFFFFF"
+                        android:textSize="18sp"
+                        android:text="Code will be here." />
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/layout_EditFunctionButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -189,11 +207,17 @@
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/btn_deleteExec"
+            android:id="@+id/btn_DeleteFunction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Удалить" />
+
+        <Space
+            android:id="@+id/space_rightOfDeleteFunctionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
         <Button
             android:id="@+id/btn_RunFunction"
@@ -202,11 +226,10 @@
             android:layout_weight="1"
             android:text="Исполнить" />
 
+        <Space
+            android:id="@+id/space_rightOfRunFunctionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
     </LinearLayout>
-
-    <Space
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" />
-
 </LinearLayout>

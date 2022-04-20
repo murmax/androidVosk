@@ -27,6 +27,7 @@ public class EditCommandActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_edit_command);
 
         Intent intent = getIntent();
         if(intent.hasExtra("commandId")) {
@@ -43,7 +44,6 @@ public class EditCommandActivity extends AppCompatActivity {
                     "\nAge: " + age);
         }
         */
-        setContentView(R.layout.activity_edit_command);
         le_commandName = findViewById(R.id.le_commandName);
         le_commandPhonetics = findViewById(R.id.le_CommandPhonetics);
         btn_SaveCommand = findViewById(R.id.btn_SaveCommand);
@@ -105,6 +105,12 @@ public class EditCommandActivity extends AppCompatActivity {
             }
         }
         else{
+            for(Command com : VoskActivity.commands){
+                if (commandName.equals(com.name) && com!=currentCommand){
+                    Toast.makeText(getApplicationContext(), "Команда '" + commandName + "' уже существует.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
             for (ExecutableFunction func : VoskActivity.functions) {
                 if (func.name.equals(selectedFunctionName)) {
                     currentCommand.name = commandName;

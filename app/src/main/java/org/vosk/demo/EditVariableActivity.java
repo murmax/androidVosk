@@ -96,6 +96,12 @@ public class EditVariableActivity extends AppCompatActivity {
             goBack();
         }
         else{
+            for(Variable va : VoskActivity.vars){
+                if (variableName.equals(va.name) && va!=currentVariable){
+                    Toast.makeText(getApplicationContext(), "Переменная '" + variableName + "' уже существует.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
             currentVariable.name = variableName;//Если будет контейнер типов переменных, то облачить в for как в EditCommand
             currentVariable.type = variableType;
             currentVariable.value = variableValue;
