@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="3dp"
+    tools:context=".EditVariableActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView_VariableTitle"
+            style="@style/ActivityTitleStyle"
+            android:text="Редактирование переменной" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/imageButton_closeEditVariableActivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+
+                android:background="@drawable/btn_close" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="108dp"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="1dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="left"
+            android:paddingVertical="3dp"
+            android:paddingHorizontal="3dp"
+            android:text="Название:"
+            android:textColor="#444444"
+            android:textSize="18sp" />
+        <LinearLayout
+            style="@style/TableRowStyle"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="1dp">
+
+            <EditText
+                android:id="@+id/le_VariableName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="left"
+                android:paddingVertical="3dp"
+                android:paddingLeft="3dp"
+                android:textColor="#444444"
+                android:background="#FFFFFF"
+                android:textSize="18sp"
+                android:inputType="textPersonName"
+                android:text="Name" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="108dp"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="1dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="left"
+            android:paddingVertical="3dp"
+            android:paddingHorizontal="3dp"
+            android:text="Тип:"
+            android:textColor="#444444"
+            android:textSize="18sp" />
+        <LinearLayout
+            style="@style/TableRowStyle"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="1dp">
+            <Spinner
+                android:id="@+id/spinner_VariableTypeChoice"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="left"
+                android:paddingVertical="3dp"
+                android:paddingLeft="3dp"
+                android:textColor="#444444"
+                android:background="#FFFFFF"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="108dp"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="1dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="left"
+            android:paddingVertical="3dp"
+            android:paddingHorizontal="3dp"
+            android:text="Значение:"
+            android:textColor="#444444"
+            android:textSize="18sp" />
+        <LinearLayout
+            style="@style/TableRowStyle"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="1dp">
+
+            <EditText
+                android:id="@+id/le_VariableValue"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="left"
+                android:paddingVertical="3dp"
+                android:paddingLeft="3dp"
+                android:textColor="#444444"
+                android:background="#FFFFFF"
+                android:textSize="18sp"
+                android:inputType="textPersonName"
+                android:text="Value" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="108dp"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="1dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="left"
+            android:paddingVertical="3dp"
+            android:paddingHorizontal="3dp"
+            android:text="Описание:"
+            android:textColor="#444444"
+            android:textSize="18sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="1dp"
+            android:background="#666666">
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:background="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <EditText
+                        android:id="@+id/le_VariableDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="1dp"
+                        android:fontFamily="sans-serif"
+                        android:gravity="left"
+                        android:paddingVertical="3dp"
+                        android:paddingLeft="3dp"
+                        android:textColor="#444444"
+                        android:background="#FFFFFF"
+                        android:textSize="18sp"
+                        android:text="Description will be here." />
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layout_EditVariableButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" />
+        <Button
+            android:id="@+id/btn_SaveVariable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Сохранить" />
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" />
+        <Button
+            android:id="@+id/btn_DeleteVariable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Удалить" />
+        <Space
+            android:id="@+id/space_rightOfDeleteVariableButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" />
+    </LinearLayout>
+
+</LinearLayout>

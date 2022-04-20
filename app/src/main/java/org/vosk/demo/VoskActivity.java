@@ -203,6 +203,7 @@ public class VoskActivity extends Activity implements
 
         cv.put("id", var.getId());
         cv.put("name", var.name);
+        cv.put("type", var.type);
         cv.put("descr", var.descr);
         cv.put("value", var.value);
         // вставляем запись и получаем ее ID
@@ -310,6 +311,7 @@ public class VoskActivity extends Activity implements
             // определяем номера столбцов по имени в выборке
             int idColIndex = c.getColumnIndex("id");
             int nameColIndex = c.getColumnIndex("name");
+            int typeColIndex = c.getColumnIndex("type");
             int descrColIndex = c.getColumnIndex("descr");
             int valueColIndex = c.getColumnIndex("value");
 
@@ -318,6 +320,7 @@ public class VoskActivity extends Activity implements
                 vars.add(
                         new Variable(
                                 c.getString(nameColIndex),
+                                c.getString(typeColIndex),
                                 c.getString(descrColIndex),
                                 c.getString(valueColIndex),
                                 c.getInt(idColIndex)
@@ -358,6 +361,7 @@ public class VoskActivity extends Activity implements
 
         findViewById(R.id.btn_editCommands).setOnClickListener(view -> goToEditCommands());
         findViewById(R.id.btn_editFunctions).setOnClickListener(view -> goToEditFunctions());
+        findViewById(R.id.btn_editVariables).setOnClickListener(view -> goToEditVariables());
         findViewById(R.id.btn_runScript).setOnClickListener(view -> runLuaFromBtn());
 
 
@@ -386,6 +390,12 @@ public class VoskActivity extends Activity implements
     private void goToEditFunctions()
     {
         Intent intent = new Intent(this, FunctionsActivity.class);
+        startActivity(intent);
+    }
+
+    private void goToEditVariables()
+    {
+        Intent intent = new Intent(this, VariablesActivity.class);
         startActivity(intent);
     }
 
@@ -704,6 +714,7 @@ public class VoskActivity extends Activity implements
             db.execSQL("create table variables ("
                     + "id integer primary key,"
                     + "name varchar,"
+                    + "type varchar,"
                     + "descr varchar,"
                     + "value varchar" + ");");
 
@@ -719,6 +730,7 @@ public class VoskActivity extends Activity implements
                 db.execSQL("create table variables ("
                         + "id integer primary key,"
                         + "name varchar,"
+                        + "type varchar,"
                         + "descr varchar,"
                         + "value varchar" + ");");
                 oldVersion=2;

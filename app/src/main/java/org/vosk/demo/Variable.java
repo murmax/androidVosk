@@ -9,8 +9,9 @@ public class Variable {
     public String name;
     public String descr;
     public String value;
+    public String type;
 
-    Variable(String name,String descr, String value, Integer id)
+    Variable(String name, String type, String descr, String value, Integer id)
     {
         if (id ==null)
         {
@@ -24,6 +25,7 @@ public class Variable {
         this.name = name;
         this.descr = descr;
         this.value = value;
+        this.type = type;
     }
 
     public int getId() {

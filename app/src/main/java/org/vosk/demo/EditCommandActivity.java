@@ -4,14 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
-import android.widget.TableLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -20,7 +17,6 @@ import java.util.List;
 public class EditCommandActivity extends AppCompatActivity {
     EditText le_commandName;
     EditText le_commandPhonetics;
-    TableLayout tableLayout_Args;
     Button btn_SaveCommand;
     Button btn_DeleteCommand;
     Spinner spinner_FunctionChoice;
@@ -29,14 +25,14 @@ public class EditCommandActivity extends AppCompatActivity {
     Command currentCommand;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {//params for one command
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
         if(intent.hasExtra("commandId")) {
             commandId = intent.getIntExtra("commandId", 0);
         }
-        /*//Оставь
+        /*//Альтернативный способ получения переданных параметров, если есть вероятность, что они могут быть не переданы.
         Bundle arguments = getIntent().getExtras();
 
         if(arguments!=null){
@@ -53,7 +49,6 @@ public class EditCommandActivity extends AppCompatActivity {
         btn_SaveCommand = findViewById(R.id.btn_SaveCommand);
         btn_DeleteCommand = findViewById(R.id.btn_DeleteCommand);
         spinner_FunctionChoice = findViewById(R.id.spinner_FunctionChoice);
-        tableLayout_Args = findViewById(R.id.tableLayout_Args);
         btn_SaveCommand.setOnClickListener(view -> saveChanges());
         btn_DeleteCommand.setOnClickListener(view -> deleteCommand());
         findViewById(R.id.imageButton_closeEditCommandActivity).setOnClickListener(view -> goBack());
@@ -125,7 +120,7 @@ public class EditCommandActivity extends AppCompatActivity {
 
     private void deleteCommand() {
         //Диалоговое окно "Вы уверены, что вы уверены?"
-        VoskActivity.removeCommand(currentCommand);
+        if(commandId!=0) VoskActivity.removeCommand(currentCommand);
         goBack();
     }
 

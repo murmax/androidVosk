@@ -6,13 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
-import java.util.HashMap;
 
 public class FunctionsActivity extends AppCompatActivity {
     private ImageButton imageButton_AddFunction;
@@ -47,7 +44,7 @@ public class FunctionsActivity extends AppCompatActivity {
 
     private void addTableRow(ExecutableFunction func){
         LayoutInflater inflater = LayoutInflater.from(this);
-        TableRow tr = (TableRow) inflater.inflate(R.layout.table_row, null);
+        TableRow tr = (TableRow) inflater.inflate(R.layout.table_row_2_cells, null);
         tr.setClickable(true);
         tr.setId(func.getId());
         tr.setOnClickListener(new View.OnClickListener() {

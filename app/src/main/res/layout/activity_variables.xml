@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="3dp"
+    tools:context=".VariablesActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView_VariablesTitle"
+            style="@style/ActivityTitleStyle"
+            android:text="Переменные" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/imageButton_closeVariablesActivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+
+                android:background="@drawable/btn_close" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TableLayout
+            android:id="@+id/tableLayout_Variables"
+            style="@style/TableLayoutStyle">
+
+            <TableRow
+                style="@style/TableRowStyle">
+
+                <TextView
+                    android:id="@+id/textView_VariableNameHeader"
+                    style="@style/TextViewStyleForTableHeaderCell"
+                    android:text="Название" />
+                <TextView
+                    android:id="@+id/textView_VariableTypeHeader"
+                    style="@style/TextViewStyleForTableHeaderCell"
+                    android:text="Тип" />
+                <TextView
+                    android:id="@+id/textView_VariableValueHeader"
+                    style="@style/TextViewStyleForTableHeaderCell"
+                    android:text="Значение" />
+            </TableRow>
+            <LinearLayout
+                android:id="@+id/plusRowVariables"
+                style="@style/TableRowStyle"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:background="#FFFFFF">
+
+                    <ImageButton
+                        android:id="@+id/imageButton_AddVariable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/btn_plus_48" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </TableLayout>
+    </ScrollView>
+
+</LinearLayout>
