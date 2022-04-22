@@ -2,8 +2,11 @@ package org.vosk.demo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,6 +47,14 @@ public class EditVariableActivity extends AppCompatActivity {
         btn_SaveVariable.setOnClickListener(view -> saveChanges());
         btn_DeleteVariable.setOnClickListener(view -> deleteVariable());
         findViewById(R.id.imageButton_closeEditVariableActivity).setOnClickListener(view -> goBack());
+        findViewById(R.id.activity_edit_variable).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(findViewById(R.id.activity_edit_variable).getWindowToken(),0);
+                findViewById(R.id.activity_edit_variable).clearFocus();
+            }
+        });
 
         strList_VariableTypes = new ArrayList<String>();
         strList_VariableTypes.add("String");

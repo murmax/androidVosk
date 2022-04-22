@@ -2,8 +2,11 @@ package org.vosk.demo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -52,6 +55,14 @@ public class EditCommandActivity extends AppCompatActivity {
         btn_SaveCommand.setOnClickListener(view -> saveChanges());
         btn_DeleteCommand.setOnClickListener(view -> deleteCommand());
         findViewById(R.id.imageButton_closeEditCommandActivity).setOnClickListener(view -> goBack());
+        findViewById(R.id.activity_edit_command).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(findViewById(R.id.activity_edit_command).getWindowToken(),0);
+                findViewById(R.id.activity_edit_command).clearFocus();
+            }
+        });
 
         strList_FuncNames = new ArrayList<String>();
         for (ExecutableFunction func : VoskActivity.functions){
