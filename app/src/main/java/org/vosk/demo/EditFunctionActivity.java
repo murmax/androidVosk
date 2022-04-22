@@ -71,7 +71,7 @@ public class EditFunctionActivity extends AppCompatActivity {
         }
         else{
             ((LinearLayout)findViewById(R.id.layout_EditFunctionButtons)).removeView(btn_DeleteFunction);
-            ((LinearLayout)findViewById(R.id.layout_EditFunctionButtons)).removeView(btn_DeleteFunction);
+            ((LinearLayout)findViewById(R.id.layout_EditFunctionButtons)).removeView(btn_RunFunction);
             ((LinearLayout)findViewById(R.id.layout_EditFunctionButtons)).removeView(findViewById(R.id.space_rightOfDeleteFunctionButton));
             ((LinearLayout)findViewById(R.id.layout_EditFunctionButtons)).removeView(findViewById(R.id.space_rightOfRunFunctionButton));
             btn_SaveFunction.setText("Создать");
