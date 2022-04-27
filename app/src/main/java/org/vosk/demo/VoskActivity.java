@@ -252,90 +252,100 @@ public class VoskActivity extends Activity implements
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         Cursor c = db.query("funcs", null, null, null, null, null, null);
 
-        if (c.moveToFirst()) {
+        if (functions.isEmpty()) {
 
-            // определяем номера столбцов по имени в выборке
-            int idColIndex = c.getColumnIndex("id");
-            int nameColIndex = c.getColumnIndex("name");
-            int codeColIndex = c.getColumnIndex("code");
-            int descrColIndex = c.getColumnIndex("descr");
+            if (c.moveToFirst()) {
 
-            do {
-                // получаем значения по номерам столбцов и пишем все в лог
-                ExecutableFunction f = new ExecutableFunction(
-                        c.getString(nameColIndex),
-                        c.getString(codeColIndex),
-                        c.getString(descrColIndex),
-                        c.getInt(idColIndex)
-                );
-                functions.add(f);
-                // переход на следующую строку
-                // а если следующей нет (текущая - последняя), то false - выходим из цикла
-            } while (c.moveToNext());
+                // определяем номера столбцов по имени в выборке
+                int idColIndex = c.getColumnIndex("id");
+                int nameColIndex = c.getColumnIndex("name");
+                int codeColIndex = c.getColumnIndex("code");
+                int descrColIndex = c.getColumnIndex("descr");
+
+                do {
+                    // получаем значения по номерам столбцов и пишем все в лог
+                    ExecutableFunction f = new ExecutableFunction(
+                            c.getString(nameColIndex),
+                            c.getString(codeColIndex),
+                            c.getString(descrColIndex),
+                            c.getInt(idColIndex)
+                    );
+                    functions.add(f);
+                    // переход на следующую строку
+                    // а если следующей нет (текущая - последняя), то false - выходим из цикла
+                } while (c.moveToNext());
+            }
+            c.close();
         }
-        c.close();
 
 
-        c = db.query("commands", null, null, null, null, null, null);
+        if (commands.isEmpty()) {
 
-        if (c.moveToFirst()) {
+            c = db.query("commands", null, null, null, null, null, null);
 
-            // определяем номера столбцов по имени в выборке
-            int idColIndex = c.getColumnIndex("id");
-            int nameColIndex = c.getColumnIndex("name");
-            int phoneticColIndex = c.getColumnIndex("phonetic");
-            int funcColIndex = c.getColumnIndex("func");
+            if (c.moveToFirst()) {
 
-            do {
-                // получаем значения по номерам столбцов и пишем все в лог
-                commands.add(
-                        new Command(
-                                c.getString(nameColIndex),
-                                c.getString(phoneticColIndex),
-                                findExecutableFunctionById(
-                                        c.getInt(funcColIndex)
-                                ),
-                                c.getInt(idColIndex)
-                        )
-                );
+                // определяем номера столбцов по имени в выборке
+                int idColIndex = c.getColumnIndex("id");
+                int nameColIndex = c.getColumnIndex("name");
+                int phoneticColIndex = c.getColumnIndex("phonetic");
+                int funcColIndex = c.getColumnIndex("func");
 
-            } while (c.moveToNext());
+                do {
+                    // получаем значения по номерам столбцов и пишем все в лог
+                    commands.add(
+                            new Command(
+                                    c.getString(nameColIndex),
+                                    c.getString(phoneticColIndex),
+                                    findExecutableFunctionById(
+                                            c.getInt(funcColIndex)
+                                    ),
+                                    c.getInt(idColIndex)
+                            )
+                    );
+
+                } while (c.moveToNext());
+            }
+            c.close();
         }
-        c.close();
 
 
-        c = db.query("variables", null, null, null, null, null, null);
+        if (vars.isEmpty()) {
+            c = db.query("variables", null, null, null, null, null, null);
 
-        if (c.moveToFirst()) {
+            if (c.moveToFirst()) {
 
-            // определяем номера столбцов по имени в выборке
-            int idColIndex = c.getColumnIndex("id");
-            int nameColIndex = c.getColumnIndex("name");
-            int typeColIndex = c.getColumnIndex("type");
-            int descrColIndex = c.getColumnIndex("descr");
-            int valueColIndex = c.getColumnIndex("value");
+                // определяем номера столбцов по имени в выборке
+                int idColIndex = c.getColumnIndex("id");
+                int nameColIndex = c.getColumnIndex("name");
+                int typeColIndex = c.getColumnIndex("type");
+                int descrColIndex = c.getColumnIndex("descr");
+                int valueColIndex = c.getColumnIndex("value");
 
-            do {
-                // получаем значения по номерам столбцов и пишем все в лог
-                vars.add(
-                        new Variable(
-                                c.getString(nameColIndex),
-                                c.getString(typeColIndex),
-                                c.getString(descrColIndex),
-                                c.getString(valueColIndex),
-                                c.getInt(idColIndex)
+                do {
+                    // получаем значения по номерам столбцов и пишем все в лог
+                    vars.add(
+                            new Variable(
+                                    c.getString(nameColIndex),
+                                    c.getString(typeColIndex),
+                                    c.getString(descrColIndex),
+                                    c.getString(valueColIndex),
+                                    c.getInt(idColIndex)
 
-                        )
-                );
+                            )
+                    );
 
-            } while (c.moveToNext());
+                } while (c.moveToNext());
+            }
+            c.close();
         }
-        c.close();
 
 
         dbHelper.close();
         ExecutableFunction func = new ExecutableFunction("Пример","print( obj:method(msg) );","Пишет сообщение, принимает параметр <msg>",null);
-
+        if (findExecutableFunctionByName("Пример")==null) {
+            addExecutableFunction(func);
+        }
 
 
 
@@ -644,12 +654,14 @@ public class VoskActivity extends Activity implements
             globals.load(script).call();
 
             scriptOutput.setTextColor(Color.WHITE);
-            scriptOutput.setText(scriptOutput.getText() + "\n" + new String(outStream.toByteArray(), charset));
+            String out = scriptOutput.getText() + "\n" + new String(outStream.toByteArray(), charset);
+            scriptOutput.setText(out);
 
 
         } catch (LuaError e) {
             scriptOutput.setTextColor(Color.RED);
-            scriptOutput.setText(scriptOutput.getText() + "\n" + e.getMessage());
+            String out = scriptOutput.getText() + "\n" + e.getMessage();
+            scriptOutput.setText(out);
         } finally {
             outPrintStream.close();
         }
