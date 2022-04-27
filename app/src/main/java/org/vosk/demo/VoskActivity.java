@@ -379,15 +379,14 @@ public class VoskActivity extends Activity implements
 
     }
 
-
     private String takeTextFromHypothesis(String hypo)
     {
-        String formatted = hypo.replace("\"text\"","");
-        String[] dividedHypo = formatted.split("\"");
+        //String formatted = hypo.replace("\"text\"","");
+        String[] dividedHypo = hypo.split("\"");
 
-        if (dividedHypo.length==3)
+        if (dividedHypo.length==5)
         {
-            return dividedHypo[1];
+            return dividedHypo[3];
         } else return "";
     }
 
@@ -460,6 +459,7 @@ public class VoskActivity extends Activity implements
             if (res.isSure)
             {
                 resultView.append(com.name + " worked!" + "\n");
+                //resultView.setText(com.name + " worked!");
                 this.runLua(com.func.luaCode,res.args);
                 //com.execute();
             }
@@ -468,13 +468,14 @@ public class VoskActivity extends Activity implements
             }
         }
 
-        resultView.append(hypothesis + "\n");
+        //resultView.append(hypothesis + "\n");
+        resultView.setText(result);
     }
 
     @Override
     public void onFinalResult(String hypothesis) {
-        resultView.append(hypothesis + "\n");
-
+        //resultView.append(hypothesis + "\n");
+        resultView.setText(takeTextFromHypothesis(hypothesis));
         setUiState(STATE_DONE);
         if (speechStreamService != null) {
             speechStreamService = null;
@@ -484,7 +485,8 @@ public class VoskActivity extends Activity implements
     @Override
     public void onPartialResult(String hypothesis) {
         //Toast.makeText(getApplicationContext(),"Hypo3:"+hypothesis,Toast.LENGTH_SHORT).show();
-        resultView.append(hypothesis + "\n");
+        //resultView.append(hypothesis + "\n");
+        resultView.setText(takeTextFromHypothesis(hypothesis));
     }
 
     @Override

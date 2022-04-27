@@ -1,235 +1,241 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="3dp"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     tools:context=".EditFunctionActivity">
     <LinearLayout
+        android:id="@+id/activity_edit_function"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/textView_FunctionTitle"
-            style="@style/ActivityTitleStyle"
-            android:text="Редактирование функции" />
-
+        android:layout_height="match_parent"
+        android:padding="5dp"
+        android:orientation="vertical">
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/imageButton_closeEditFunctionActivity"
+            <TextView
+                android:id="@+id/textView_FunctionTitle"
+                style="@style/ActivityTitleStyle"
+                android:text="Редактирование функции" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
 
-                android:background="@drawable/btn_close" />
+                <ImageButton
+                    android:id="@+id/imageButton_closeEditFunctionActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+
+                    android:background="@drawable/btn_close" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="10dp">
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:layout_marginVertical="1dp"
-            android:layout_marginStart="1dp"
-            android:layout_marginEnd="1dp"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="left"
-            android:paddingVertical="3dp"
-            android:paddingHorizontal="3dp"
-            android:text="Название:"
-            android:textColor="#444444"
-            android:textSize="18sp" />
         <LinearLayout
-            style="@style/TableRowStyle"
-            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="1dp">
+            android:paddingBottom="10dp">
 
-            <EditText
-                android:id="@+id/le_functionName"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="100dp"
                 android:layout_height="match_parent"
-                android:background="#FFFFFF"
+                android:layout_marginVertical="1dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginEnd="1dp"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="left"
-                android:inputType="textPersonName"
                 android:paddingVertical="3dp"
-                android:paddingLeft="3dp"
+                android:paddingHorizontal="3dp"
+                android:text="Название:"
                 android:textColor="#444444"
                 android:textSize="18sp" />
+            <LinearLayout
+                style="@style/TableRowStyle"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="1dp">
+
+                <EditText
+                    android:id="@+id/le_functionName"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#FFFFFF"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="left"
+                    android:inputType="textPersonName"
+                    android:paddingVertical="3dp"
+                    android:paddingLeft="3dp"
+                    android:textColor="#444444"
+                    android:textSize="18sp" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="10dp">
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:layout_marginVertical="1dp"
-            android:layout_marginStart="1dp"
-            android:layout_marginEnd="1dp"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="left"
-            android:paddingVertical="3dp"
-            android:paddingHorizontal="3dp"
-            android:text="Описание:"
-            android:textColor="#444444"
-            android:textSize="18sp" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="1dp"
-            android:background="#666666">
-            <ScrollView
+            android:orientation="horizontal"
+            android:paddingBottom="10dp">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_marginVertical="1dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginEnd="1dp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="left"
+                android:paddingVertical="3dp"
+                android:paddingHorizontal="3dp"
+                android:text="Описание:"
+                android:textColor="#444444"
+                android:textSize="18sp" />
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="#FFFFFF">
-
-                <LinearLayout
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="1dp"
+                android:background="#666666">
+                <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <EditText
-                        android:id="@+id/le_FunctionDescription"
-                        android:layout_width="wrap_content"
+                    android:layout_height="200dp"
+                    android:background="#FFFFFF">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="1dp"
-                        android:fontFamily="sans-serif"
-                        android:gravity="left"
-                        android:paddingVertical="3dp"
-                        android:paddingLeft="3dp"
-                        android:textColor="#444444"
-                        android:background="#FFFFFF"
-                        android:textSize="18sp"
-                        android:text="Description will be here." />
-                </LinearLayout>
-            </ScrollView>
+                        android:orientation="vertical">
+                        <EditText
+                            android:id="@+id/le_FunctionDescription"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="1dp"
+                            android:fontFamily="sans-serif"
+                            android:gravity="left"
+                            android:paddingVertical="3dp"
+                            android:paddingLeft="3dp"
+                            android:textColor="#444444"
+                            android:background="#FFFFFF"
+                            android:textSize="18sp"
+                            android:text="Description will be here." />
+                    </LinearLayout>
+                </ScrollView>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="10dp">
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:layout_marginVertical="1dp"
-            android:layout_marginStart="1dp"
-            android:layout_marginEnd="1dp"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="left"
-            android:paddingVertical="3dp"
-            android:paddingHorizontal="3dp"
-            android:text="Код:"
-            android:textColor="#444444"
-            android:textSize="18sp" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="1dp"
-            android:background="#666666">
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:background="#FFFFFF">
+            android:orientation="horizontal"
+            android:paddingBottom="10dp">
 
-                <LinearLayout
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_marginVertical="1dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginEnd="1dp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="left"
+                android:paddingVertical="3dp"
+                android:paddingHorizontal="3dp"
+                android:text="Код:"
+                android:textColor="#444444"
+                android:textSize="18sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="1dp"
+                android:background="#666666">
+                <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <EditText
-                        android:id="@+id/le_functionCode"
-                        android:layout_width="wrap_content"
+                    android:layout_height="250dp"
+                    android:background="#FFFFFF">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="1dp"
-                        android:fontFamily="sans-serif"
-                        android:gravity="left"
-                        android:paddingVertical="3dp"
-                        android:paddingLeft="3dp"
-                        android:textColor="#444444"
-                        android:background="#FFFFFF"
-                        android:textSize="18sp"
-                        android:text="Code will be here." />
-                </LinearLayout>
-            </ScrollView>
+                        android:orientation="vertical">
+                        <EditText
+                            android:id="@+id/le_functionCode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="1dp"
+                            android:fontFamily="sans-serif"
+                            android:gravity="left"
+                            android:paddingVertical="3dp"
+                            android:paddingLeft="3dp"
+                            android:textColor="#444444"
+                            android:background="#FFFFFF"
+                            android:textSize="18sp"
+                            android:text="Code will be here." />
+                    </LinearLayout>
+                </ScrollView>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_EditFunctionButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp">
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/btn_SaveFunction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Сохранить" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/btn_DeleteFunction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Удалить" />
+
+            <Space
+                android:id="@+id/space_rightOfDeleteFunctionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/btn_RunFunction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Исполнить" />
+
+            <Space
+                android:id="@+id/space_rightOfRunFunctionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
         </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layout_EditFunctionButtons"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/btn_SaveFunction"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Сохранить" />
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/btn_DeleteFunction"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Удалить" />
-
-        <Space
-            android:id="@+id/space_rightOfDeleteFunctionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/btn_RunFunction"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Исполнить" />
-
-        <Space
-            android:id="@+id/space_rightOfRunFunctionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-    </LinearLayout>
-</LinearLayout>
+</ScrollView>
