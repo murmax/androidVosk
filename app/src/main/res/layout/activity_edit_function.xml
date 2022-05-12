@@ -108,28 +108,23 @@
                 android:padding="1dp"
                 android:background="#666666">
                 <ScrollView
+                    android:id="@+id/scrollView_FunctionDescription"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:background="#FFFFFF">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <EditText
+                        android:id="@+id/le_FunctionDescription"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <EditText
-                            android:id="@+id/le_FunctionDescription"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="1dp"
-                            android:fontFamily="sans-serif"
-                            android:gravity="left"
-                            android:paddingVertical="3dp"
-                            android:paddingLeft="3dp"
-                            android:textColor="#444444"
-                            android:background="#FFFFFF"
-                            android:textSize="18sp"
-                            android:text="Description will be here." />
-                    </LinearLayout>
+                        android:layout_margin="1dp"
+                        android:fontFamily="sans-serif"
+                        android:gravity="left"
+                        android:paddingVertical="3dp"
+                        android:paddingLeft="3dp"
+                        android:textColor="#444444"
+                        android:background="#FFFFFF"
+                        android:textSize="18sp"
+                        android:text="Description will be here." />
                 </ScrollView>
             </LinearLayout>
         </LinearLayout>
@@ -161,28 +156,23 @@
                 android:padding="1dp"
                 android:background="#666666">
                 <ScrollView
+                    android:id="@+id/scrollView_FunctionCode"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:background="#FFFFFF">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <EditText
+                        android:id="@+id/le_functionCode"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <EditText
-                            android:id="@+id/le_functionCode"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="1dp"
-                            android:fontFamily="sans-serif"
-                            android:gravity="left"
-                            android:paddingVertical="3dp"
-                            android:paddingLeft="3dp"
-                            android:textColor="#444444"
-                            android:background="#FFFFFF"
-                            android:textSize="18sp"
-                            android:text="Code will be here." />
-                    </LinearLayout>
+                        android:layout_margin="1dp"
+                        android:fontFamily="sans-serif"
+                        android:gravity="left"
+                        android:paddingVertical="3dp"
+                        android:paddingLeft="3dp"
+                        android:textColor="#444444"
+                        android:background="#FFFFFF"
+                        android:textSize="18sp"
+                        android:text="Code will be here." />
                 </ScrollView>
             </LinearLayout>
         </LinearLayout>

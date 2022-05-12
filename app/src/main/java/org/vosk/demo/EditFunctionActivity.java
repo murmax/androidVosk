@@ -52,6 +52,32 @@ public class EditFunctionActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.scrollView_FunctionCode).setOnTouchListener(new View.OnTouchListener() {//!!!!
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                le_FunctionCode.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(le_FunctionCode, InputMethodManager.SHOW_IMPLICIT);
+                /*заменить предыдущую строку на следующую, если курсор не устанавливается в конец le при тапе в пустой области*/
+                //imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+                le_FunctionCode.setSelection(le_FunctionCode.getText().length());
+                return false;
+            }
+        });
+
+        findViewById(R.id.scrollView_FunctionDescription).setOnTouchListener(new View.OnTouchListener() {//!!!!
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                le_FunctionDescription.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(le_FunctionDescription, InputMethodManager.SHOW_IMPLICIT);
+                /*заменить предыдущую строку на следующую, если курсор не устанавливается в конец le при тапе в пустой области*/
+                //imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+                le_FunctionDescription.setSelection(le_FunctionDescription.getText().length());
+                return false;
+            }
+        });
+
         currentFunction=null;
 
         fillData();

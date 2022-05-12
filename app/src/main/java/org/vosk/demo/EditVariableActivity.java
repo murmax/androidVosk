@@ -2,9 +2,11 @@ package org.vosk.demo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -56,6 +58,19 @@ public class EditVariableActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.scrollView_VariableDescription).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                le_VariableDescription.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(le_VariableDescription, InputMethodManager.SHOW_IMPLICIT);
+                /*заменить предыдущую строку на следующую, если курсор не устанавливается в конец le при тапе в пустой области*/
+                //imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+                le_VariableDescription.setSelection(le_VariableDescription.getText().length());
+                return false;
+            }
+        });
+
         strList_VariableTypes = new ArrayList<String>();
         strList_VariableTypes.add("String");
         strList_VariableTypes.add("Int");
@@ -85,8 +100,6 @@ public class EditVariableActivity extends AppCompatActivity {
             btn_SaveVariable.setText("Создать");
         }
     }
-
-
 
     private void saveChanges()
     {

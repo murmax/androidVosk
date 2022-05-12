@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -91,6 +92,19 @@ public class EditCommandActivity extends AppCompatActivity {
             ((LinearLayout)findViewById(R.id.layout_EditCommandButtons)).removeView(findViewById(R.id.space_rightOfDeleteCommandButton));
             btn_SaveCommand.setText("Создать");
         }
+
+        findViewById(R.id.scrollView_CommandPhonetics).setOnTouchListener(new View.OnTouchListener() {//!!!!
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                le_commandPhonetics.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(le_commandPhonetics, InputMethodManager.SHOW_IMPLICIT);
+                /*заменить предыдущую строку на следующую, если курсор не устанавливается в конец le при тапе в пустой области*/
+                //imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+                le_commandPhonetics.setSelection(le_commandPhonetics.getText().length());
+                return false;
+            }
+        });
     }
 
 
